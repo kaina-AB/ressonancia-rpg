@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .card {
+    @apply bg-[#241d18] border border-gold/40 rounded-lg p-5 shadow-lg;
+  }
+  .btn-primary {
+    @apply bg-blood hover:bg-blood/80 text-parchment font-display tracking-wide px-5 py-2 rounded transition-colors;
+  }
+  .btn-secondary {
+    @apply bg-transparent border border-gold/60 hover:bg-gold/10 text-gold font-display tracking-wide px-5 py-2 rounded transition-colors;
+  }
+  .label {
+    @apply text-gold/90 text-sm uppercase tracking-wider font-display;
+  }
+  .input {
+    @apply bg-ink border border-gold/30 rounded px-3 py-2 text-parchment focus:outline-none focus:border-gold;
+  }
+}
