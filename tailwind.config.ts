@@ -5,14 +5,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        parchment: "#e8dcc0",
-        ink: "#1a1512",
-        blood: "#7a1f1f",
-        gold: "#b8933a",
+        parchment: "#e9e9ec",
+        ink: "#0a0a0b",
+        surface: "#161618",
+        blood: "#ef4444",
+        gold: "#9853f0",
       },
       fontFamily: {
-        display: ["Cinzel", "serif"],
-        body: ["EB Garamond", "serif"],
+        display: ["Inter", "sans-serif"],
+        body: ["Inter", "sans-serif"],
       },
     },
   },

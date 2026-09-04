@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #0a0a0b;
+  min-height: 100vh;
+}
+
+@layer components {
+  .card {
+    @apply relative bg-surface border border-white/10 rounded-lg p-5;
+  }
+
+  .btn-primary {
+    @apply bg-gold hover:bg-[#a768f5]
+      text-white font-display font-semibold text-sm px-6 py-2.5 rounded-md
+      transition-colors duration-150;
+  }
+  .btn-secondary {
+    @apply bg-transparent border border-gold/60 hover:bg-gold/10
+      text-gold font-display font-semibold text-sm px-6 py-2.5 rounded-md
+      transition-colors duration-150;
+  }
+  .label {
+    @apply text-parchment/40 text-xs uppercase tracking-[0.1em] font-display font-medium;
+  }
+  .input {
+    @apply bg-surface border border-white/10 rounded-md px-3 py-2 text-parchment
+      focus:outline-none focus:border-gold/70 transition-colors;
+  }
+
+  /* Divisor simples, sem ornamentos — linha fina translúcida */
+  .ornament-divider {
+    @apply flex items-center gap-3 text-white/10 my-6;
+  }
+  .ornament-divider::before,
+  .ornament-divider::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: currentColor;
+  }
+
+  /* Barra de status (vida / sanidade / esforço) — trilho escuro + preenchimento colorido */
+  .stat-bar-track {
+    @apply relative w-full h-3 rounded-full bg-white/10 overflow-hidden;
+  }
+  .stat-bar-fill {
+    @apply h-full rounded-full transition-[width] duration-200;
+  }
+}
