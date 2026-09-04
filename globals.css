@@ -2,51 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: #0a0a0b;
+  background-color: #0b0a0e;
   min-height: 100vh;
 }
 
 @layer components {
+  /* ---------- superfícies ---------- */
   .card {
-    @apply relative bg-surface border border-white/10 rounded-lg p-5;
+    @apply relative bg-surface border border-white/[0.08] rounded-xl p-5;
+  }
+  .card-hover {
+    @apply transition-colors duration-150 hover:border-gold/50;
   }
 
+  /* ---------- botões ---------- */
   .btn-primary {
-    @apply bg-gold hover:bg-[#a768f5]
-      text-white font-display font-semibold text-sm px-6 py-2.5 rounded-md
-      transition-colors duration-150;
+    @apply inline-flex items-center justify-center gap-2 bg-gold hover:bg-[#a86ff8]
+      text-white font-display font-semibold text-sm px-6 py-2.5 rounded-lg
+      transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .btn-secondary {
-    @apply bg-transparent border border-gold/60 hover:bg-gold/10
-      text-gold font-display font-semibold text-sm px-6 py-2.5 rounded-md
-      transition-colors duration-150;
+    @apply inline-flex items-center justify-center gap-2 bg-transparent border border-gold/55
+      hover:bg-gold/10 text-lilac font-display font-semibold text-sm px-6 py-2.5 rounded-lg
+      transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
   }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 text-muted hover:text-parchment
+      font-display font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors duration-150
+      disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  /* ---------- texto de apoio ---------- */
   .label {
-    @apply text-parchment/40 text-xs uppercase tracking-[0.1em] font-display font-medium;
+    @apply text-dim text-[11px] uppercase tracking-[0.16em] font-mono font-semibold;
   }
   .input {
-    @apply bg-surface border border-white/10 rounded-md px-3 py-2 text-parchment
-      focus:outline-none focus:border-gold/70 transition-colors;
+    @apply bg-ink border border-white/10 rounded-lg px-3 py-2.5 text-parchment
+      placeholder:text-dim/70 focus:outline-none focus:border-gold/70 transition-colors;
   }
 
-  /* Divisor simples, sem ornamentos — linha fina translúcida */
-  .ornament-divider {
-    @apply flex items-center gap-3 text-white/10 my-6;
-  }
-  .ornament-divider::before,
-  .ornament-divider::after {
-    content: "";
-    height: 1px;
-    flex: 1;
-    background: currentColor;
-  }
-
-  /* Barra de status (vida / sanidade / esforço) — trilho escuro + preenchimento colorido */
+  /* ---------- barras (vida / carga) ---------- */
   .stat-bar-track {
-    @apply relative w-full h-3 rounded-full bg-white/10 overflow-hidden;
+    @apply relative w-full h-2.5 rounded-full bg-white/[0.08] overflow-hidden;
   }
   .stat-bar-fill {
-    @apply h-full rounded-full transition-[width] duration-200;
+    @apply h-full rounded-full transition-[width] duration-300;
   }
+
+  /* ---------- o "guia do site" ---------- */
+  .nav-link {
+    @apply relative text-sm text-muted hover:text-parchment transition-colors duration-150 py-1;
+  }
+  .nav-link-active {
+    @apply text-parchment;
+  }
+  .nav-link-active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2px;
+    border-radius: 2px;
+    background: #9b5cf6;
+  }
+}
+
+/* Fundo com brilho roxo — usado nas faixas alternadas da home */
+.glow-purple {
+  background:
+    radial-gradient(1100px 520px at 20% 0%, rgba(155, 92, 246, 0.3), transparent 68%),
+    radial-gradient(900px 480px at 90% 100%, rgba(112, 0, 172, 0.28), transparent 66%),
+    #100D18;
+}
+.glow-purple-soft {
+  background: radial-gradient(760px 340px at 50% 50%, rgba(155, 92, 246, 0.14), transparent 72%);
+}
+
+/* Linha fina roxa embaixo do cabeçalho */
+.header-line {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(155, 92, 246, 0.55) 30%,
+    rgba(185, 140, 255, 0.9) 50%,
+    rgba(155, 92, 246, 0.55) 70%,
+    transparent 100%
+  );
+}
+
+/* Tira o visual de <select> nativo caso algum sobre por aí */
+select {
+  appearance: none;
+  -webkit-appearance: none;
 }
