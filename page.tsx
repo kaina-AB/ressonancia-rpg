@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { AnelRessonante } from "@/components/Marca";
+import { AvisoSupabase } from "@/components/AvisoSupabase";
 
 export default function Login() {
   const router = useRouter();
@@ -49,6 +50,8 @@ export default function Login() {
         <p className="text-dim text-[13.5px] text-center mt-2 mb-7">
           Suas fichas ficam salvas na sua conta — só você enxerga.
         </p>
+
+        <AvisoSupabase />
 
         <form
           className="card space-y-4"

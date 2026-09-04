@@ -89,6 +89,22 @@ quando isso acontecer. Pra um projeto em desenvolvimento/com poucos jogadores
 isso não costuma ser problema; se o site crescer, dá pra migrar pro plano pago
 sem perder nada.
 
+## Se o deploy da Vercel falhar
+
+O erro mais provável é `Error: supabaseUrl is required`, logo depois de
+"Linting and checking validity of types". Ele NÃO é erro de código: é a Vercel
+construindo sem as variáveis de ambiente.
+
+Conserto: Vercel → o projeto → **Settings → Environment Variables** → adiciona
+`NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` (marcando
+Production, Preview e Development) → volta em **Deployments** → nos três
+pontinhos do último deploy → **Redeploy**. Mudar variável sozinho não refaz o
+build, tem que mandar refazer.
+
+(Desde esta versão o site não quebra mais o build por causa disso — sobe do
+mesmo jeito e mostra um aviso amarelo em `/login` e `/personagens` dizendo que
+falta configurar. Mas login e fichas só funcionam de verdade com as variáveis.)
+
 ## Atualizando o site pelo site do GitHub (sem terminal)
 
 Isso já deu problema uma vez: o site ficou com metade dos arquivos novos e
