@@ -16,6 +16,7 @@
     "plugins": [{ "name": "next" }],
     "paths": { "@/*": ["./src/*"] }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "//": "O código do site vive TODO dentro de src/. Compilar só src/ evita que um arquivo solto na raiz (ex.: upload feito arrastando arquivos em vez de pastas) quebre o build inteiro.",
+  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", ".next"]
 }

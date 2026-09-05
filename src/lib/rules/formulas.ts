@@ -67,14 +67,15 @@ export function danoDeFusao(maiorDanoBase: number, cargaTotalInvestida: number, 
   return Math.round(maiorDanoBase * 1.5) + cargaTotalInvestida - Math.floor(constituicaoDefensor / 2);
 }
 
-// Tiers narrativos de Nível (também define o teto de Grau de Perícia — ver pericias.ts)
+// Tiers narrativos de Nível. O Tier serve para DUAS coisas e nenhuma delas é somar no teste:
+//   1. faixa narrativa do personagem (nível 1-5, 6-10, 11-15, 16+);
+//   2. teto de Grau de Perícia que ele pode comprar — ver grauMaximoPorNivel() em pericias.ts.
+// O bônus que entra no teste vem SEMPRE do grau da própria perícia (GRAUS_TREINO).
+// A antiga bonusDeTreinoPorTier() foi removida: ela dava o mesmo bônus a toda perícia treinada,
+// o que tornava subir de grau irrelevante. Decisão registrada em 04/09/2026.
 export function tierDoNivel(nivel: number): 1 | 2 | 3 | 4 {
   if (nivel >= 16) return 4;
   if (nivel >= 11) return 3;
   if (nivel >= 6) return 2;
   return 1;
-}
-
-export function bonusDeTreinoPorTier(tier: 1 | 2 | 3 | 4): number {
-  return tier + 1; // Tier 1 = +2, Tier 2 = +3, Tier 3 = +4, Tier 4 = +5
 }
