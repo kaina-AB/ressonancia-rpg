@@ -20,8 +20,15 @@ import {
   type Atributo,
 } from "@/lib/rules/pericias";
 import { tierDoNivel, tetoAtual, type Atributos } from "@/lib/rules/formulas";
-import { derivadosDe, normalizarFicha, type FichaSalva, type ItemInventario } from "@/lib/ficha";
+import {
+  derivadosDe,
+  normalizarFicha,
+  type FichaSalva,
+  type ItemInventario,
+  type EstadosDoPersonagem,
+} from "@/lib/ficha";
 import { RodaDeAtributos } from "@/components/RodaDeAtributos";
+import { Retrato } from "@/components/Retrato";
 
 interface PersonagemRow {
   id: string;
@@ -207,6 +214,18 @@ function SecaoResumo({
   return (
     <div className="flex flex-col lg:flex-row gap-5">
       <div className="lg:w-[380px] shrink-0 space-y-5">
+        <Retrato
+          retrato={ficha.retrato}
+          estados={ficha.estados}
+          onAlternar={(campo: keyof EstadosDoPersonagem) =>
+            atualizar((f) => ({ ...f, estados: { ...f.estados, [campo]: !f.estados[campo] } }))
+          }
+          onTrocarFoto={() => {
+            const url = window.prompt("Cole o link da imagem do personagem (deixe vazio pra tirar):", ficha.retrato);
+            if (url === null) return;
+            atualizar((f) => ({ ...f, retrato: url.trim() }));
+          }}
+        />
         <div className="card flex justify-center">
           <RodaDeAtributos atributos={ficha.atributos} tamanho={330} teto={tetoAtual(ficha.vezesEstourado)} />
         </div>

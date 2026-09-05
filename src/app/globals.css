@@ -7,54 +7,101 @@ html {
 }
 
 body {
-  background-color: #0b0a0e;
+  background-color: #07060a;
   min-height: 100vh;
 }
 
 @layer components {
-  /* ---------- superfícies ---------- */
+  /* ---------- placa: a superfície base, com colchete de instrumento nos cantos ---------- */
   .card {
-    @apply relative bg-surface border border-white/[0.08] rounded-xl p-5;
+    @apply relative bg-surface border border-white/[0.08] p-5;
+  }
+  .card::before,
+  .card::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid rgba(138, 63, 252, 0.45);
+    pointer-events: none;
+  }
+  .card::before {
+    top: -1px;
+    left: -1px;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .card::after {
+    bottom: -1px;
+    right: -1px;
+    border-left: 0;
+    border-top: 0;
   }
   .card-hover {
     @apply transition-colors duration-150 hover:border-gold/50;
   }
+  /* placa sem colchete, pra caixas dentro de outra placa */
+  .caixa {
+    @apply bg-elevated border border-white/[0.07] p-4;
+  }
 
-  /* ---------- botões ---------- */
+  /* ---------- botões: raio 2px e sombra sólida, nunca borrada ---------- */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-gold hover:bg-[#a86ff8]
-      text-white font-display font-semibold text-sm px-6 py-2.5 rounded-lg
-      transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 bg-gold hover:bg-[#9a55ff]
+      text-white font-display font-semibold text-sm uppercase tracking-[0.06em]
+      px-6 py-3 border border-gold transition-all duration-150
+      disabled:opacity-40 disabled:shadow-none disabled:cursor-not-allowed;
+    box-shadow: 4px 4px 0 #35146b;
+  }
+  .btn-primary:hover:not(:disabled) {
+    transform: translate(-1px, -1px);
+    box-shadow: 6px 6px 0 #35146b;
   }
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 bg-transparent border border-gold/55
-      hover:bg-gold/10 text-lilac font-display font-semibold text-sm px-6 py-2.5 rounded-lg
-      transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+      hover:border-gold text-lilac font-display font-semibold text-sm uppercase tracking-[0.06em]
+      px-6 py-3 transition-all duration-150
+      disabled:opacity-40 disabled:shadow-none disabled:cursor-not-allowed;
+    box-shadow: 4px 4px 0 rgba(138, 63, 252, 0.14);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    transform: translate(-1px, -1px);
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 text-muted hover:text-parchment
-      font-display font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors duration-150
+    @apply inline-flex items-center justify-center gap-2 bg-transparent border border-white/[0.14]
+      text-muted hover:text-parchment hover:border-white/30 font-display font-semibold text-sm
+      uppercase tracking-[0.06em] px-5 py-3 transition-colors duration-150
       disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  /* passo: os ±1 / ±5 das barras e dos atributos */
+  .passo {
+    @apply border border-gold/40 bg-gold/[0.06] text-lilac font-mono text-sm
+      px-3 py-2 leading-none transition-colors duration-150
+      hover:bg-gold hover:text-white hover:border-gold
+      disabled:opacity-20 disabled:bg-transparent disabled:cursor-not-allowed disabled:hover:text-lilac;
   }
 
   /* ---------- texto de apoio ---------- */
   .label {
-    @apply text-dim text-[11px] uppercase tracking-[0.16em] font-mono font-semibold;
+    @apply text-dim text-[10px] uppercase tracking-[0.2em] font-mono font-semibold;
+  }
+  .medida {
+    @apply text-faint text-[10px] tracking-[0.16em] font-mono;
   }
   .input {
-    @apply bg-ink border border-white/10 rounded-lg px-3 py-2.5 text-parchment
-      placeholder:text-dim/70 focus:outline-none focus:border-gold/70 transition-colors;
+    @apply bg-ink border border-white/10 px-3 py-2.5 text-parchment font-body
+      placeholder:text-faint focus:outline-none focus:border-gold/70 transition-colors;
   }
 
-  /* ---------- barras (vida / carga) ---------- */
+  /* ---------- barras de medida ---------- */
   .stat-bar-track {
-    @apply relative w-full h-2.5 rounded-full bg-white/[0.08] overflow-hidden;
+    @apply relative w-full h-3 bg-white/[0.06] border border-white/[0.07];
   }
   .stat-bar-fill {
-    @apply h-full rounded-full transition-[width] duration-300;
+    @apply absolute top-0 bottom-0 left-0 transition-[width] duration-300;
   }
 
-  /* ---------- o "guia do site" ---------- */
+  /* ---------- o guia do site ---------- */
   .nav-link {
     @apply relative text-sm text-muted hover:text-parchment transition-colors duration-150 py-1;
   }
@@ -68,36 +115,70 @@ body {
     right: 0;
     bottom: -6px;
     height: 2px;
-    border-radius: 2px;
-    background: #9b5cf6;
+    background: #8a3ffc;
   }
 }
 
-/* Fundo com brilho roxo — usado nas faixas alternadas da home */
-.glow-purple {
-  background:
-    radial-gradient(1100px 520px at 20% 0%, rgba(155, 92, 246, 0.3), transparent 68%),
-    radial-gradient(900px 480px at 90% 100%, rgba(112, 0, 172, 0.28), transparent 66%),
-    #100D18;
-}
-.glow-purple-soft {
-  background: radial-gradient(760px 340px at 50% 50%, rgba(155, 92, 246, 0.14), transparent 72%);
+/* Reticulado de medição atrás das áreas de apresentação */
+.grade {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 56px 56px;
 }
 
-/* Linha fina roxa embaixo do cabeçalho */
-.header-line {
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(155, 92, 246, 0.55) 30%,
-    rgba(185, 140, 255, 0.9) 50%,
-    rgba(155, 92, 246, 0.55) 70%,
-    transparent 100%
-  );
+/* Brilho de campo — usado nas faixas da home.
+   background-color separado do image: os painéis empilhados PRECISAM ser opacos,
+   senão o de baixo aparece através do de cima. */
+.campo-roxo {
+  background-color: #07060a;
+  background-image: radial-gradient(900px 420px at 22% 50%, rgba(138, 63, 252, 0.16), transparent 70%);
 }
 
-/* Tira o visual de <select> nativo caso algum sobre por aí */
+/* Cursor retículo: vale onde você está olhando, não onde está trabalhando */
+.reticulo {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28'><circle cx='14' cy='14' r='9' fill='none' stroke='%238A3FFC' stroke-width='1.2' opacity='.9'/><circle cx='14' cy='14' r='1.6' fill='%23C4A0FF'/><path d='M14 0v6M14 22v6M0 14h6M22 14h6' stroke='%238A3FFC' stroke-width='1.2' opacity='.75'/></svg>")
+      14 14,
+    crosshair;
+}
+
+/* Movimento: nada aparece parado, tudo se propaga do centro */
+@keyframes propaga {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+.onda {
+  animation: propaga 2.6s cubic-bezier(0.15, 0.6, 0.3, 1) infinite;
+}
+
+/* Instável: o sinal do retrato se parte em duas cores e treme */
+@keyframes tremor {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-1.5px, 1px);
+  }
+  50% {
+    transform: translate(1px, -1.5px);
+  }
+  75% {
+    transform: translate(1.5px, 1px);
+  }
+}
+.instavel {
+  animation: tremor 0.5s steps(2) infinite;
+}
+
 select {
   appearance: none;
   -webkit-appearance: none;

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
-import { AnelRessonante } from "@/components/Marca";
+import { CampoDeInterferencia } from "@/components/Marca";
 import { AvisoSupabase } from "@/components/AvisoSupabase";
 
 export default function Login() {
@@ -42,7 +42,7 @@ export default function Login() {
 
   return (
     <main className="relative overflow-hidden">
-      <AnelRessonante className="absolute left-1/2 -translate-x-1/2 -top-40 w-[620px] h-[620px] opacity-35 pointer-events-none" />
+      <CampoDeInterferencia className="absolute inset-x-0 top-0 h-[520px] opacity-60 pointer-events-none" />
       <div className="relative max-w-[400px] mx-auto px-5 py-16 md:py-24">
         <h1 className="font-display font-bold text-parchment text-[26px] text-center tracking-tight">
           {modo === "entrar" ? "Entrar" : "Criar conta"}

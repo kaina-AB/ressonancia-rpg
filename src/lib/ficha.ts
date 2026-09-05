@@ -19,9 +19,24 @@ export interface ItemInventario {
   quantidade: number;
 }
 
+export interface EstadosDoPersonagem {
+  ferido: boolean;
+  instavel: boolean;
+  sobrecarga: boolean;
+}
+
+export const ESTADOS_LIMPOS: EstadosDoPersonagem = {
+  ferido: false,
+  instavel: false,
+  sobrecarga: false,
+};
+
 export interface FichaSalva {
   versao: 2;
   atributos: Atributos;
+  /** URL do retrato; vazio mostra a silhueta de placeholder */
+  retrato: string;
+  estados: EstadosDoPersonagem;
   /** id da perícia -> índice do grau em GRAUS_TREINO (0 = Destreinado) */
   pericias: Record<string, number>;
   pontosDePericia: number;
@@ -49,6 +64,8 @@ export function fichaNova(atributos: Atributos, pontosDePericia: number): FichaS
   return {
     versao: 2,
     atributos,
+    retrato: "",
+    estados: { ...ESTADOS_LIMPOS },
     pericias: periciasZeradas(),
     pontosDePericia,
     vidaAtual: vidaMaxima(atributos),
@@ -67,6 +84,8 @@ export function normalizarFicha(bruto: unknown, pontosDePericiaPadrao: number): 
   return {
     versao: 2,
     atributos,
+    retrato: obj.retrato ?? "",
+    estados: { ...ESTADOS_LIMPOS, ...(obj.estados ?? {}) },
     pericias: { ...periciasZeradas(), ...(obj.pericias ?? {}) },
     pontosDePericia: obj.pontosDePericia ?? pontosDePericiaPadrao,
     vidaAtual: obj.vidaAtual ?? vidaMaxima(atributos),

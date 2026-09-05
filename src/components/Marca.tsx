@@ -1,37 +1,64 @@
-// A marca do site: anéis concêntricos = a onda que sai do ponto de origem.
-// Usada no cabeçalho e na home. Tamanho controlado por props pra não repetir SVG por aí.
-export function Marca({ size = 24 }: { size?: number }) {
+// A marca: um ponto de origem e a onda que sai dele.
+// Três anéis fixos e — quando `viva` — um quarto que se propaga sem parar.
+export function Marca({ size = 24, viva = false }: { size?: number; viva?: boolean }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="2" stroke="#9B5CF6" strokeWidth="1.4" />
-      <circle cx="12" cy="12" r="6" stroke="#9B5CF6" strokeWidth="1.4" strokeOpacity="0.7" />
-      <circle cx="12" cy="12" r="10" stroke="#9B5CF6" strokeWidth="1.4" strokeOpacity="0.4" />
+      <circle cx="12" cy="12" r="1.7" fill="#C4A0FF" />
+      <circle cx="12" cy="12" r="5.5" stroke="#8A3FFC" strokeWidth="1.1" />
+      <circle
+        cx="12"
+        cy="12"
+        r="9.5"
+        stroke="#8A3FFC"
+        strokeWidth="1.1"
+        strokeOpacity="0.45"
+        strokeDasharray="1.4 4"
+      />
+      {viva && (
+        <circle
+          cx="12"
+          cy="12"
+          r="11"
+          stroke="#8A3FFC"
+          strokeWidth="0.9"
+          className="onda"
+          style={{ transformOrigin: "12px 12px" }}
+        />
+      )}
     </svg>
   );
 }
 
-// O anel grande da home — mesma ideia, muito mais camadas.
-export function AnelRessonante({ className = "" }: { className?: string }) {
-  const raios = [300, 262, 224, 186, 148, 110, 72, 36];
-  const opacidades = [0.05, 0.07, 0.09, 0.12, 0.15, 0.2, 0.26, 0.34];
+// O campo de interferência: duas fontes de onda que se cruzam.
+// É o fundo das áreas de apresentação — nunca das telas de trabalho.
+export function CampoDeInterferencia({ className = "" }: { className?: string }) {
+  const roxos: [number, string, string | undefined][] = [
+    [118, "0.26", "2 7"],
+    [174, "0.20", undefined],
+    [236, "0.15", undefined],
+    [304, "0.11", "1 6"],
+    [378, "0.08", undefined],
+    [458, "0.06", undefined],
+    [544, "0.04", "2 9"],
+  ];
   return (
-    <svg viewBox="0 0 620 620" className={className} fill="none" aria-hidden="true">
-      <g stroke="#9B5CF6">
-        {raios.map((r, i) => (
-          <circle
-            key={r}
-            cx="310"
-            cy="310"
-            r={r}
-            strokeOpacity={opacidades[i]}
-            strokeDasharray={i % 2 === 1 ? "2 9" : undefined}
-          />
+    <svg viewBox="0 0 1440 560" className={className} fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="nucleoCampo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#8A3FFC" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="#8A3FFC" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="720" cy="270" r="330" fill="url(#nucleoCampo)" />
+      <g stroke="#8A3FFC">
+        {roxos.map(([r, o, dash]) => (
+          <circle key={r} cx="720" cy="270" r={r} strokeOpacity={o} strokeDasharray={dash} />
         ))}
       </g>
-      {/* segunda fonte de onda — é a interferência que dá o desenho de cimática */}
-      <g stroke="#E5484D" strokeOpacity="0.13">
-        {[90, 150, 210, 270].map((r) => (
-          <circle key={r} cx="410" cy="368" r={r} />
+      {/* a segunda fonte: o vermelho que interfere, quase invisível */}
+      <g stroke="#FF4D3D" strokeOpacity="0.09">
+        {[150, 262, 382].map((r) => (
+          <circle key={r} cx="1140" cy="470" r={r} />
         ))}
       </g>
     </svg>
